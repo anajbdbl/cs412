@@ -1,0 +1,19 @@
+<!-- templates/quotes/show_all.html -->
+
+{% extends 'quotes/base.html' %}
+
+{% load static %}
+
+{% block title %}All Quotes{% endblock %}
+
+{% block content %}
+    <h2>All Quotes and Images of Anthony Bourdain</h2>
+    <ul>
+    {% for quote, image in quotes %}
+        <li>
+            <p>"{{ quote }}"</p>
+            <img src="{% static image %}" alt="Image of Anthony Bourdain">
+        </li>
+    {% endfor %}
+    </ul>
+{% endblock %}

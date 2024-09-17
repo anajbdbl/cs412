@@ -1,0 +1,16 @@
+<!-- templates/quotes/about.html -->
+
+{% extends 'quotes/base.html' %}
+
+{% load static %}
+
+{% block title %}About{% endblock %}
+
+{% block content %}
+    <h2>About Anthony Bourdain</h2>
+    <p>{{ bio }}</p>
+
+    <h2>About the Creator</h2>
+    <p>{{ creator }}</p>
+{% endblock %}
+

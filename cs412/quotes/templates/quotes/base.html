@@ -1,0 +1,33 @@
+<!-- quotes/templates/quotes/base.html -->
+
+{% load static %}
+
+<html>
+<head>
+    <title>{% block title %}Quote of the Day{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Quote of the Day</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'quote' %}">Home</a></li>
+                <li><a href="{% url 'show_all' %}">All Quotes</a></li>
+                <li><a href="{% url 'about' %}">About</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="content">
+        {% block content %}
+        <!-- Content from templates will go here -->
+        {% endblock %}
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Ana Julia Bortolossi</p>
+    </footer>
+    
+</body>
+</html>
