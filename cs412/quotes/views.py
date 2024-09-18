@@ -7,7 +7,7 @@ import random
 
 # Create your views here.
 
-# Lists of quotes and images from Anthony Bourdain
+# Lists of quotes and images
 QUOTES = [
     "Your body is not a temple, it's an amusement park. Enjoy the ride.",
     "Travel isn't always pretty. It isn't always comfortable. Sometimes it hurts, it even breaks your heart. But that's okay. The journey changes you.",
