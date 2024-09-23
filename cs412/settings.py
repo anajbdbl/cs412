@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "hw", # new app
-    "cs412.quotes", # assignment 3
+    "quotes", # assignment 3
 ]
 
 MIDDLEWARE = [
