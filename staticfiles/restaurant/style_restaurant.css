@@ -1,9 +1,9 @@
 /* static/css/styles.css */
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Quicksand:wght@400;700&display=swap');
 
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Libre Baskerville', sans-serif;
     background-color: #f0f0f0;
     color: #333;
     margin: 0;
@@ -17,7 +17,7 @@ body {
 header {
     text-align: center;
     padding: 40px;
-    background-color: #60aa5c; 
+    background-color: #8D6E63; 
     color: white;
     width: 100%;
 }
@@ -31,7 +31,7 @@ header h1 {
 
 nav {
     width: 100%;
-    background-color: #60aa5c; 
+    background-color: #8D6E63; 
     padding: 15px 0;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); 
     position: sticky; 
@@ -57,7 +57,7 @@ nav a {
 }
 
 nav a:hover {
-    background-color: #3c6c3a; 
+    background-color: #962f10; 
     color: white;
     transform: scale(1.1); 
 }
@@ -114,28 +114,28 @@ form {
 }
 
 fieldset {
-    border: 2px solid #60aa5c; /* Blue border for the fieldset */
-    padding: 20px; /* Padding inside the fieldset */
-    border-radius: 10px; /* Rounded corners for a modern look */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Optional: shadow effect */
-    margin-bottom: 20px; /* Space between different sections */
+    border: 2px solid #8D6E63; 
+    padding: 20px; 
+    border-radius: 10px; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+    margin-bottom: 20px; 
     width: 100%;
 }
 
 legend {
     font-size: 1.5rem; /* Increase font size for the legend */
     font-weight: bold;
-    color: #60aa5c; /* Same blue as the border */
-    padding: 0 10px; /* Add padding inside the legend */
-    border: 2px solid #60aa5c; /* Border around the legend */
-    border-radius: 8px; /* Rounded corners for the legend */
-    background-color: #f0f8ff; /* Light background to make it stand out */
+    color: #8D6E63;
+    padding: 0 10px; 
+    border: 2px solid #8D6E63;
+    border-radius: 8px; 
+    background-color: #fff4f0ca; 
 }
 
 label {
     font-size: 1.2rem;
-    display: inline-block; /* Ensure label and checkbox are on the same line */
-    vertical-align: middle; /* Align label vertically with the checkbox */
+    display: inline-block; 
+    vertical-align: middle; 
 }
 
 input[type="checkbox"] {
@@ -167,7 +167,8 @@ form select {
 }
 
 form button {
-    background-color: #28a745;
+    font-family: 'Libre Baskerville', sans-serif;
+    background-color: #8D6E63;
     color: white;
     font-size: 1.2rem;
     padding: 12px 24px;
@@ -178,7 +179,7 @@ form button {
 }
 
 form button:hover {
-    background-color: #218838;
+    background-color: #D7CCC8;
     transform: scale(1.05); 
 }
 
