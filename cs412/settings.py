@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "hw", # new app
     "quotes", # assignment 3
+    "formdata", # assignment 4 demo
 ]
 
 MIDDLEWARE = [
