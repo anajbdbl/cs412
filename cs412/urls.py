@@ -24,4 +24,5 @@ urlpatterns = [
     path("hw/", include("hw.urls")), ## new path
     path("quotes/", include("quotes.urls")), ## new path for assignment 3
     path("formdata/", include("formdata.urls")), ## new path for assignment 4 demo
+    path("restaurant/", include("restaurant.urls")), ## new path for assignment 4 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

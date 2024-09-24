@@ -1,0 +1,26 @@
+<!-- restaurant/templates/restaurant/base.html -->
+
+{% load static %}
+
+<html>
+<head>
+    <title>Restaurant</title>
+    <link rel="stylesheet" href="{% static 'restaurant/style_restaurant.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Welcome to El Secreto de Julia</h1>
+        <nav>
+            <a href="{% url 'main' %}">Main</a>
+            <a href="{% url 'order' %}">Order</a>
+        </nav>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer>
+        <p>El Secreto de Julia © 2024</p>
+    </footer>
+</body>
+</html>

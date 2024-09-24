@@ -1,0 +1,69 @@
+<!-- restaurant/templates/restaurant/order.html -->
+{% extends 'restaurant/base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <h2>Order Food</h2>
+    <form action="{% url 'confirmation' %}" method="POST">
+        {% csrf_token %}
+        
+        <!-- Daily Specials Section -->
+        <fieldset>
+            <legend>Daily Specials</legend>
+            <input type="checkbox" id="daily_special" name="items" value="{{ daily_special }}">
+            <label for="daily_special">Today's Special: {{ daily_special }}</label><br>
+        </fieldset>
+        
+        <!-- Menu Items Section -->
+        <fieldset>
+            <legend>Menu Items</legend>
+            
+            <!-- Tacos -->
+            <input type="checkbox" id="tacos" name="items" value="Tacos">
+            <label for="tacos">Tacos - $10</label>
+            <br><br>
+            
+            <!-- Empanadas with options -->
+            <input type="checkbox" id="empanadas" name="items" value="Empanadas">
+            <label for="empanadas">Empanadas - $8</label>
+            <br><br>
+            <label for="empanada_fillings">Choose filling for Empanadas:</label><br>
+            <select id="empanada_fillings" name="empanada_fillings">
+                <option value="Chicken">Chicken</option>
+                <option value="Beef">Beef</option>
+                <option value="Cheese">Cheese</option>
+            </select>
+            <br><br>
+
+            <!-- Churros -->
+            <input type="checkbox" id="churros" name="items" value="Churros">
+            <label for="churros">Churros - $5</label>
+            <br><br>
+
+            <!-- Arepas -->
+            <input type="checkbox" id="arepas" name="items" value="Arepas">
+            <label for="arepas">Arepas - $9</label>
+            <br><br>
+        </fieldset>
+
+        <!-- Customer Information Section -->
+        <fieldset>
+            <legend>Customer Information</legend>
+
+            <label for="name">Name:</label><br>
+            <input type="text" id="name" name="name" required><br><br>
+
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" name="email" required><br><br>
+
+            <label for="phone">Phone:</label><br>
+            <input type="tel" id="phone" name="phone" required><br><br>
+
+            <label for="instructions">Special Instructions:</label><br>
+            <textarea id="instructions" name="instructions"></textarea>
+        </fieldset>
+
+        <button type="submit">Place Order</button>
+    </form>
+{% endblock %}

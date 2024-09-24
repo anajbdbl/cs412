@@ -1,0 +1,196 @@
+/* static/css/styles.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+header {
+    text-align: center;
+    padding: 40px;
+    background-color: #60aa5c; 
+    color: white;
+    width: 100%;
+}
+
+header h1 {
+    font-size: 3rem;
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+nav {
+    width: 100%;
+    background-color: #60aa5c; 
+    padding: 15px 0;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); 
+    position: sticky; 
+    top: 0;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    gap: 30px; 
+}
+
+nav a {
+    text-decoration: none;
+    color: white; 
+    font-size: 2rem;
+    padding: 10px 20px;
+    transition: background-color 0.3s, transform 0.3s;
+    border-radius: 8px; 
+}
+
+nav a:hover {
+    background-color: #3c6c3a; 
+    color: white;
+    transform: scale(1.1); 
+}
+
+.content-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 20px;
+    max-width: 1200px;
+    width: 100%;
+    padding: 40px;
+    margin: 20px auto;
+}
+
+.content {
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.content:hover {
+    transform: translateY(-10px); 
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    color: #333;
+    text-align: center;
+}
+
+.content p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: #555;
+    text-align: center;
+}
+
+.content img {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+fieldset {
+    border: 2px solid #60aa5c; /* Blue border for the fieldset */
+    padding: 20px; /* Padding inside the fieldset */
+    border-radius: 10px; /* Rounded corners for a modern look */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Optional: shadow effect */
+    margin-bottom: 20px; /* Space between different sections */
+    width: 100%;
+}
+
+legend {
+    font-size: 1.5rem; /* Increase font size for the legend */
+    font-weight: bold;
+    color: #60aa5c; /* Same blue as the border */
+    padding: 0 10px; /* Add padding inside the legend */
+    border: 2px solid #60aa5c; /* Border around the legend */
+    border-radius: 8px; /* Rounded corners for the legend */
+    background-color: #f0f8ff; /* Light background to make it stand out */
+}
+
+label {
+    font-size: 1.2rem;
+    display: inline-block; /* Ensure label and checkbox are on the same line */
+    vertical-align: middle; /* Align label vertically with the checkbox */
+}
+
+input[type="checkbox"] {
+    transform: scale(1.5); 
+    margin-right: 10px; 
+    vertical-align: middle; 
+}
+
+form input[type="text"], 
+form input[type="email"], 
+form input[type="tel"], 
+form textarea {
+    width: 100%; 
+    padding: 15px;
+    font-size: 1.2rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+form select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+form button {
+    background-color: #28a745;
+    color: white;
+    font-size: 1.2rem;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s;
+}
+
+form button:hover {
+    background-color: #218838;
+    transform: scale(1.05); 
+}
+
+footer {
+    text-align: center;
+    margin-top: 40px;
+    padding: 20px;
+    background-color: #333;
+    color: #fff;
+    width: 100%;
+}
+
+footer p {
+    font-size: 0.9rem;
+}

@@ -1,0 +1,17 @@
+<!-- restaurant/templates/restaurant/main.html -->
+{% extends 'restaurant/base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <h2>About Us</h2>
+    <p>Location: 1707 Mexico Ave, Boston, MA </p>
+    <p>Hours of Operation:</p>
+    <ul>
+        <li>Monday - Wednesday: 10 AM - 11 PM</li>
+        <li>Thursday - Saturday: 12 PM - 12 AM</li>
+        <li>Sunday: 12 PM - 9 PM</li>
+    </ul>
+    <img src="{% static 'restaurant/restaurant_photo.jpg' %}" alt="Restaurant photo">
+
+{% endblock %}
