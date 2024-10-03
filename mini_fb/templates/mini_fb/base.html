@@ -1,0 +1,29 @@
+<!-- mini_fb/templates/mini_fb/base.html -->
+
+{% load static %}
+
+<html>
+<head>
+    <title>Mini FB</title>
+    <link rel="stylesheet" href="{% static 'mini_fb/styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Mini FB</h1>
+    </header>
+
+    <nav>
+        <a href="{% url 'main' %}">Main</a>
+        <a href="{% url 'order' %}">Profiles</a>
+    </nav>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Mini FB</p>
+    </footer>
+</body>
+</html>
