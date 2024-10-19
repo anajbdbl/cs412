@@ -19,12 +19,21 @@
         
         <ul class="status-messages">
             {% for message in object.get_status_messages %}
-                <li>{{ message.timestamp }}: {{ message.message }}</li>
+                <li>
+                    <p>{{ message.timestamp }}: {{ message.message }}</p> 
+                    {% if message.image_file %}
+                        <img src="{{ message.image_file.url }}" alt="Status Image" style="width: 300px; margin: 10px;">
+                    {% endif %} 
+                    <br>
+                    <a href="{% url 'update_status' message.pk %}" class="btn-post-status">Update</a> 
+                    <a href="{% url 'delete_status' message.pk %}" class="btn-post-status">Delete</a>
+                </li>
             {% empty %}
                 <li>No status messages yet.</li>
             {% endfor %}
         </ul>
 
+        <a href="{% url 'update_profile' object.pk %}" class="back-to-all-profiles">Update Profile</a> <br>
         <a href="{% url 'show_all_profiles' %}" class="back-to-all-profiles">Back to All Profiles</a>
     </div>
 </div>

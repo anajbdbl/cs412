@@ -26,5 +26,7 @@ urlpatterns = [
     path("formdata/", include("formdata.urls")), ## new path for assignment 4 demo
     path("restaurant/", include("restaurant.urls")), ## new path for assignment 4 
     path("blog/", include("blog.urls")), ## new path for assignment 5 demo
-    path('mini_fb/', include('mini_fb.urls')),  ## new path for assignment 5
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    path('mini_fb/', include('mini_fb.urls')),  ## new path for assignment 5, 6, 7
+] 
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

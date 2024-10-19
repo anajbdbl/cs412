@@ -47,7 +47,7 @@ body {
 .status-messages {
     list-style: none;
     padding: 0;
-    text-align: left; /* Keep status messages aligned to the left */
+    text-align: left; 
 }
 
 .status-messages li {
@@ -55,6 +55,7 @@ body {
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 10px;
+    text-align: center; 
 }
 
 .btn-post-status {
