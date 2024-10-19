@@ -21,9 +21,12 @@
             {% for message in object.get_status_messages %}
                 <li>
                     <p>{{ message.timestamp }}: {{ message.message }}</p> 
-                    {% if message.image_file %}
-                        <img src="{{ message.image_file.url }}" alt="Status Image" style="width: 300px; margin: 10px;">
-                    {% endif %} 
+                    <div>
+                        {% for img in message.images.all %}
+                            <img src="{{ img.image_file.url }}" alt="Status Image" style="width: 300px; margin: 10px;">
+                            <p> Image uploaded on: {{ img.timestamp }}</p>
+                        {% endfor %}
+                    </div>
                     <br>
                     <a href="{% url 'update_status' message.pk %}" class="btn-post-status">Update</a> 
                     <a href="{% url 'delete_status' message.pk %}" class="btn-post-status">Delete</a>

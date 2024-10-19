@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.urls import reverse
-from .forms import CreateProfileForm, CreateStatusMessageForm
+from .forms import CreateProfileForm, CreateStatusMessageForm, UpdateProfileForm
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Profile, StatusMessage
+from .models import Profile, StatusMessage, Image
 
 # Create your views here.
 
@@ -30,9 +30,12 @@ class CreateStatusMessageView(CreateView):
     def form_valid(self, form):
         profile = get_object_or_404(Profile, pk=self.kwargs['pk'])
         form.instance.profile = profile
-        
-        if self.request.FILES.get('image_file'):
-            form.instance.image_file = self.request.FILES['image_file']
+
+        sm = form.save()
+
+        files = self.request.FILES.getlist('files')
+        for file in files:
+            Image.objects.create(image_file=file, status_message=sm)
 
         return super().form_valid(form)
 
@@ -41,7 +44,7 @@ class CreateStatusMessageView(CreateView):
 
 class UpdateProfileView(UpdateView):
     model = Profile
-    form_class = CreateProfileForm  
+    form_class = UpdateProfileForm  
     template_name = 'mini_fb/update_profile_form.html'
 
     def get_success_url(self):
@@ -53,10 +56,13 @@ class UpdateStatusMessageView(UpdateView):
     template_name = 'mini_fb/update_status_form.html'
 
     def form_valid(self, form):
-        # Handle the image upload (if any)
-        if self.request.FILES.get('image_file'):
-            form.instance.image_file = self.request.FILES['image_file']
+        sm = form.save()
 
+        # Handle new uploaded files 
+        files = self.request.FILES.getlist('files')
+        for file in files:
+            Image.objects.create(image_file=file, status_message=sm)
+        
         return super().form_valid(form)
 
     def get_success_url(self):
