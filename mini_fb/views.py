@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from .forms import CreateProfileForm, CreateStatusMessageForm, UpdateProfileForm
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -74,3 +74,11 @@ class DeleteStatusMessageView(DeleteView):
 
     def get_success_url(self):
         return reverse('show_profile', kwargs={'pk': self.object.profile.pk})
+    
+class DeleteImageView(DeleteView):
+    model = Image
+    template_name = 'mini_fb/delete_image_form.html'
+
+    def get_success_url(self):
+        """Redirect to the status message update page after deletion."""
+        return reverse_lazy('update_status', kwargs={'pk': self.object.status_message.pk})

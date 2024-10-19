@@ -9,6 +9,21 @@
     {% csrf_token %}
     {{ form.as_p }}
     <input type="file" name="files" multiple>  <!-- Allow multiple files -->
+
+    <h2>Existing Images</h2>
+    <div>
+        {% for img in object.images.all %}
+            <div>
+                <img src="{{ img.image_file.url }}" alt="Status Image" style="width: 300px; margin: 10px;">
+                <a href="{% url 'delete_image' img.pk %}">
+                    <button> Delete </button>
+                </a>  <!-- Link to delete image -->
+            </div>
+        {% empty %}
+            <p>No images for this status message.</p>
+        {% endfor %}
+    </div>
+
     <button type="submit">Save Changes</button>
 </form>
 
