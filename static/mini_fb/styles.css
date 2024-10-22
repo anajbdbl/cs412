@@ -110,8 +110,29 @@ header h1 {
     color: #f0f2f5;
 }
 
+/* Navbar Styling */
+nav a {
+    display: inline-block;
+    margin: 0 10px;
+    padding: 10px 20px;
+    background-color: #4267B2; /* Matches the header color */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+/* Hover and Active States */
+nav a:hover {
+    background-color: #365899;
+    transform: scale(1.05); /* Slightly enlarges the button on hover */
+}
+
+/* Ensure spacing between the links */
 nav {
     text-align: center;
+    margin-top: 10px;
 }
 
 h1 {
