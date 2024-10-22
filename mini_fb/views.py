@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy
 from .forms import CreateProfileForm, CreateStatusMessageForm, UpdateProfileForm
-from django.shortcuts import get_object_or_404
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.shortcuts import get_object_or_404, redirect
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
 from .models import Profile, StatusMessage, Image
 
 # Create your views here.
@@ -82,3 +82,21 @@ class DeleteImageView(DeleteView):
     def get_success_url(self):
         """Redirect to the status message update page after deletion."""
         return reverse_lazy('update_status', kwargs={'pk': self.object.status_message.pk})
+    
+class CreateFriendView(View):
+    def dispatch(self, request, *args, **kwargs):
+        profile = get_object_or_404(Profile, pk=kwargs['pk'])
+        other = get_object_or_404(Profile, pk=kwargs['other_pk'])
+
+        profile.add_friend(other)
+
+        return redirect('show_profile', pk=profile.pk)
+    
+class ShowFriendSuggestionsView(DetailView):
+    model = Profile
+    template_name = 'mini_fb/friend_suggestions.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['friend_suggestions'] = self.object.get_friend_suggestions()
+        return context

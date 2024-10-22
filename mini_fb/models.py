@@ -17,6 +17,21 @@ class Profile(models.Model):
     def get_status_messages(self):
         return self.status_messages.all().order_by('-timestamp')
 
+    def get_friends(self):
+        friends = Friend.objects.filter(models.Q(profile1=self) | models.Q(profile2=self))
+        
+        return [friend.profile2 if friend.profile1 == self else friend.profile1 for friend in friends]
+    
+    def add_friend(self, other):
+        if not Friend.objects.filter(models.Q(profile1=self, profile2=other) | models.Q(profile1=other, profile2=self)).exists():
+            Friend.objects.create(profile1=self, profile2=other, timestamp=timezone.now())
+
+    def get_friend_suggestions(self):
+        current_friends = set(self.get_friends())
+        all_profiles = set(Profile.objects.exclude(pk=self.pk))
+        return list(all_profiles - current_friends)
+
+
 class StatusMessage(models.Model):
     timestamp = models.DateTimeField(default=timezone.now)
     message = models.TextField()
@@ -36,3 +51,12 @@ class Image(models.Model):
 
     def __str__(self):
         return f"Image for {self.status_message.message[:20]} uploaded on {self.timestamp}"
+    
+class Friend(models.Model):
+    profile1 = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='friend_set1')
+    profile2 = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='friend_set2')
+    timestamp = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        """Display the friendship as a string."""
+        return f"{self.profile1} & {self.profile2}"

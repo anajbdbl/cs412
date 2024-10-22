@@ -36,6 +36,18 @@
             {% endfor %}
         </ul>
 
+        <h2>Friends</h2>
+        <ul class="friends-list">
+            {% for friend in object.get_friends %}
+                <li>
+                    <a href="{% url 'show_profile' friend.pk %}">{{ friend.first_name }} {{ friend.last_name }}</a>
+                </li>
+            {% empty %}
+                <li>No friends yet.</li>
+            {% endfor %} <br>
+            <a href="{% url 'friend_suggestions' object.pk %}" class="btn-suggestions">Friend Suggestions</a>
+        </ul>
+
         <a href="{% url 'update_profile' object.pk %}" class="back-to-all-profiles">Update Profile</a> <br>
         <a href="{% url 'show_all_profiles' %}" class="back-to-all-profiles">Back to All Profiles</a>
     </div>

@@ -44,10 +44,11 @@ body {
     color: #333;
 }
 
+/* Status Messages */
 .status-messages {
     list-style: none;
     padding: 0;
-    text-align: left; 
+    text-align: left;
 }
 
 .status-messages li {
@@ -55,10 +56,12 @@ body {
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 10px;
-    text-align: center; 
+    text-align: center;
 }
 
-.btn-post-status {
+/* Buttons */
+.btn-post-status,
+.btn-add-friend {
     display: inline-block;
     margin-bottom: 20px;
     padding: 10px 20px;
@@ -71,7 +74,8 @@ body {
     transition: background-color 0.3s;
 }
 
-.btn-post-status:hover {
+.btn-post-status:hover,
+.btn-add-friend:hover {
     background-color: #365899;
 }
 
@@ -112,12 +116,13 @@ nav {
 
 h1 {
     font-size: 3em;
-    color: #2c387e; 
+    color: #2c387e;
     font-weight: bold;
     margin-bottom: 20px;
     text-align: center;
 }
 
+/* Profile Grid Styling */
 .profiles-grid {
     display: flex;
     flex-wrap: wrap;
@@ -125,6 +130,7 @@ h1 {
     gap: 20px;
 }
 
+/* Profile Card Styling (for friends and friend suggestions) */
 .profile-card {
     background-color: white;
     border-radius: 10px;
@@ -139,7 +145,7 @@ h1 {
     transform: scale(1.05);
 }
 
-.profile-card img{
+.profile-card img {
     width: 100%;
     height: 200px;
     object-fit: cover;
@@ -150,17 +156,28 @@ h1 {
     padding: 15px;
 }
 
-.profile-info h2{
+.profile-info h2 {
     font-size: 1.2em;
     color: #2c387e;
     margin: 10px 0 5px;
 }
 
-.profile-info p{
+.profile-info p {
     font-size: 0.9em;
     color: #555;
 }
 
+/* Friend List Styling on Profile Page */
+.friends-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+}
+
+/* Footer Styling */
 footer {
     margin-top: 20px;
     padding: 10px;
@@ -171,8 +188,10 @@ footer {
     font-size: 0.9em;
 }
 
+/* Responsive Layout */
 @media screen and (max-width: 768px) {
-    .profiles-grid {
+    .profiles-grid,
+    .friends-list {
         flex-direction: column;
         align-items: center;
     }
