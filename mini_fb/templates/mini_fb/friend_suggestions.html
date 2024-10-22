@@ -5,18 +5,21 @@
 {% block content %}
 <h1>Friend Suggestions for {{ object.first_name }} {{ object.last_name }}</h1>
 
-<ul>
+<div class="profiles-grid">
     {% for suggestion in friend_suggestions %}
-        <li>
-            <a href="{% url 'show_profile' suggestion.pk %}">
-                {{ suggestion.first_name }} {{ suggestion.last_name }}
-            </a>
-            <a href="{% url 'add_friend' object.pk suggestion.pk %}" class="btn-add-friend">Add Friend</a>
-        </li>
+        <div class="profile-card">
+            <img src="{{ suggestion.profile_image_url }}" alt="Profile Image">
+            <div class="profile-info">
+                <h2>{{ suggestion.first_name }} {{ suggestion.last_name }}</h2>
+                <p>{{ suggestion.city }}</p>
+                <a href="{% url 'add_friend' object.pk suggestion.pk %}" class="btn-add-friend">Add Friend</a>
+            </div>
+        </div>
     {% empty %}
-        <li>No friend suggestions available.</li>
+        <p>No friend suggestions available.</p>
     {% endfor %}
-</ul>
+</div>
 
-<a href="{% url 'show_profile' object.pk %}">Back to Profile</a>
+<a href="{% url 'show_profile' object.pk %}" class="back-to-all-profiles">Back to Profile</a>
 {% endblock %}
+
