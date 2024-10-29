@@ -247,6 +247,98 @@ footer {
     font-size: 0.9em;
 }
 
+/* Form Container Styling */
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh; /* Vertically centers the form */
+    padding: 20px;
+    background-color: #f0f2f5;
+}
+
+.form-card {
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.form-card h2 {
+    font-size: 1.8em;
+    color: #2c387e;
+    margin-bottom: 20px;
+}
+
+.form-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-card input, 
+.form-card button {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    width: 100%;
+}
+
+.form-card button {
+    background-color: #4267B2;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    border: none;
+}
+
+.form-card button:hover {
+    background-color: #365899;
+}
+
+input[type="file"] {
+    border: none;
+}
+
+/* Adjust input styles for focus */
+input:focus, textarea:focus {
+    outline: none;
+    border: 1px solid #4267B2;
+    box-shadow: 0 0 5px rgba(66, 103, 178, 0.5);
+}
+
+.news-feed-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+}
+
+.status-card {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile-pic {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+    object-fit: cover;
+}
+
+.status-content {
+    flex: 1;
+}
+
 /* Responsive Layout */
 @media screen and (max-width: 768px) {
     .profiles-grid,

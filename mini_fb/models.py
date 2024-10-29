@@ -10,6 +10,7 @@ class Profile(models.Model):
     email = models.EmailField()
     profile_image_url = models.URLField(max_length=200)
     birthdate = models.DateField(null=True, blank=True)
+    friends = models.ManyToManyField('self', symmetrical=True, blank=True)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"
@@ -31,6 +32,13 @@ class Profile(models.Model):
         all_profiles = set(Profile.objects.exclude(pk=self.pk))
         return list(all_profiles - current_friends)
 
+    def get_news_feed(self):
+        own_messages = StatusMessage.objects.filter(profile=self)
+        friend_profiles = self.get_friends()
+        friend_messages = StatusMessage.objects.filter(profile__in=friend_profiles)
+        all_messages = own_messages | friend_messages
+        
+        return all_messages.order_by('-timestamp')
 
 class StatusMessage(models.Model):
     timestamp = models.DateTimeField(default=timezone.now)

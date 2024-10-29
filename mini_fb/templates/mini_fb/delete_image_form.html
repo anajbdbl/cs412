@@ -3,6 +3,10 @@
 {% load static %}
 
 {% block content %}
+<nav>
+    <a href="{% url 'show_all_profiles' %}">All Profiles</a>
+</nav>
+
 <h1>Are you sure you want to delete this image?</h1>
 
 <form method="POST">

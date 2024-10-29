@@ -1,15 +1,20 @@
 {% extends 'mini_fb/base.html' %}
-
 {% load static %}
 
 {% block content %}
+<nav>
+    <a href="{% url 'show_all_profiles' %}">All Profiles</a>
+</nav>
+
 <div class="form-container">
-    <h2>Create New Status Message</h2>
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="file" name="files" multiple>
-        <button type="submit">Post Status</button>
-    </form>
+    <div class="form-card">
+        <h2>Create New Status Message</h2>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="file" name="files" multiple>
+            <button type="submit">Post Status</button>
+        </form>
+    </div>
 </div>
 {% endblock %}

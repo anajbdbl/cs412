@@ -3,6 +3,11 @@
 {% load static %}
 
 {% block content %}
+<nav>
+    <a href="{% url 'show_all_profiles' %}">All Profiles</a>
+    <a href="{% url 'create_profile' %}">Create Profile</a>
+</nav>
+
     <div class="profile-container">
         <h1>All Profiles</h1>
         <hr>

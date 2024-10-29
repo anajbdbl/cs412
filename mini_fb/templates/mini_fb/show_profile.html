@@ -3,6 +3,13 @@
 {% load static %}
 
 {% block content %}
+<nav>
+    <a href="{% url 'show_all_profiles' %}">All Profiles</a>
+    <a href="{% url 'update_profile' object.pk %}">Update Profile</a>
+    <a href="{% url 'news_feed' profile.id %}">News Feed</a>
+</nav>
+
+
 <div class="profile-detail-wrapper">
     <div class="profile-detail-card">
         <h1>{{ object.first_name }} {{ object.last_name }}</h1>
@@ -54,9 +61,7 @@
                     <p>No friends yet.</p>
                 {% endfor %}
             </ul> <br>
-        <a href="{% url 'friend_suggestions' object.pk %}" class="btn-post-status">Friend Suggestions</a> <br>
-        <a href="{% url 'update_profile' object.pk %}" class="back-to-all-profiles">Update Profile</a> <br>
-        <a href="{% url 'show_all_profiles' %}" class="back-to-all-profiles">Back to All Profiles</a>
+        <a href="{% url 'friend_suggestions' object.pk %}" class="btn-post-status">Friend Suggestions</a>
     </div>
 </div>
 {% endblock %}
