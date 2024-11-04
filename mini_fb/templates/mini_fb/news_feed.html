@@ -3,11 +3,6 @@
 {% load static %}
 
 {% block content %}
-<nav>
-    <a href="{% url 'show_all_profiles' %}">All Profiles</a>
-    <a href="{% url 'create_profile' %}">Create Profile</a>
-</nav>
-
 <h1>News Feed</h1>
 
 <div class="news-feed">
@@ -30,5 +25,5 @@
     {% endfor %}
 </div>
 <br>
-<a href="{% url 'show_profile' profile.id %}" class="btn-post-status">Back to Profile</a>
+<a href="{% url 'show_profile' pk=user_profile_pk %}" class="btn-post-status">Back to Profile</a>
 {% endblock %}

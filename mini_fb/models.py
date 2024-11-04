@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -11,6 +12,7 @@ class Profile(models.Model):
     profile_image_url = models.URLField(max_length=200)
     birthdate = models.DateField(null=True, blank=True)
     friends = models.ManyToManyField('self', symmetrical=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='profile') # assignment 9 
 
     def __str__(self):
         return f"{self.first_name} {self.last_name}"

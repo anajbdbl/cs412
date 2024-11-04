@@ -12,9 +12,21 @@
         <ul>
             <!-- use the scriptlet URL function to look up a URL by name -->
             <a href="{% url 'show_all' %}">Show All</a>
+
+            {% if request.user.is_authenticated %}
+                <li><a href="{% url 'create_article' %}">Create Article</a></li>
+                <li><a href="{% url 'logout' %}">Log out</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}">Log in</a></li>
+            {% endif %}
+
             <a href="{% url 'random' %}">Random</a>
-            <a href="{% url 'create_article' %}">Create Article</a> 
         </ul>
+        {% if request.user.is_authenticated %}
+            Logged in user: {{ request.user }}.
+        {% else %}
+            Not logged in.
+        {% endif %}
     </nav>
 
     {% block content %}

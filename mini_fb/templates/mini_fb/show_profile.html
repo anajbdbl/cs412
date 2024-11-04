@@ -4,9 +4,10 @@
 
 {% block content %}
 <nav>
-    <a href="{% url 'show_all_profiles' %}">All Profiles</a>
-    <a href="{% url 'update_profile' object.pk %}">Update Profile</a>
-    <a href="{% url 'news_feed' profile.id %}">News Feed</a>
+    {% if user.is_authenticated and user == object.user %}
+        <a href="{% url 'update_profile' %}">Update Profile</a>
+        <a href="{% url 'news_feed' %}">News Feed</a>
+    {% endif %}
 </nav>
 
 
@@ -22,7 +23,9 @@
         </div>
 
         <h2>Status Messages</h2>
-        <a href="{% url 'create_status' object.pk %}" class="btn-post-status">Post a new status message</a>
+        {% if user.is_authenticated and user == object.user %}
+            <a href="{% url 'create_status' %}" class="btn-post-status">Post a new status message</a>
+        {% endif %}
         
         <ul class="status-messages">
             {% for message in object.get_status_messages %}
@@ -35,8 +38,10 @@
                         {% endfor %}
                     </div>
                     <br>
-                    <a href="{% url 'update_status' message.pk %}" class="btn-post-status">Update</a> 
-                    <a href="{% url 'delete_status' message.pk %}" class="btn-post-status">Delete</a>
+                    {% if user.is_authenticated and user == object.user %}
+                        <a href="{% url 'update_status' message.pk %}" class="btn-post-status">Update</a> 
+                        <a href="{% url 'delete_status' message.pk %}" class="btn-post-status">Delete</a>
+                    {% endif %}
                 </li>
             {% empty %}
                 <li>No status messages yet.</li>
@@ -50,7 +55,7 @@
                         <img src="{{ friend.profile_image_url }}" alt="Profile Image">
                         <div class="profile-info">
                             <h2>
-                                <a href="{% url 'show_profile' friend.pk %}">
+                                <a href="{% url 'show_profile' pk=friend.pk %}">
                                     {{ friend.first_name }} {{ friend.last_name }}
                                 </a>
                             </h2>
@@ -61,7 +66,9 @@
                     <p>No friends yet.</p>
                 {% endfor %}
             </ul> <br>
-        <a href="{% url 'friend_suggestions' object.pk %}" class="btn-post-status">Friend Suggestions</a>
+        {% if user.is_authenticated and user == object.user %}
+            <a href="{% url 'friend_suggestions' %}" class="btn-post-status">Friend Suggestions</a>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

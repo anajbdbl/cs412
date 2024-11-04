@@ -3,9 +3,6 @@
 {% load static %}
 
 {% block content %}
-<nav>
-    <a href="{% url 'show_all_profiles' %}">All Profiles</a>
-</nav>
 
 <h1>Friend Suggestions for {{ object.first_name }} {{ object.last_name }}</h1>
 
@@ -16,7 +13,7 @@
             <div class="profile-info">
                 <h2>{{ suggestion.first_name }} {{ suggestion.last_name }}</h2>
                 <p>{{ suggestion.city }}</p>
-                <a href="{% url 'add_friend' object.pk suggestion.pk %}" class="btn-add-friend">Add Friend</a>
+                <a href="{% url 'add_friend' suggestion.pk %}" class="btn-add-friend">Add Friend</a>
             </div>
         </div>
     {% empty %}
@@ -24,6 +21,6 @@
     {% endfor %}
 </div>
 
-<a href="{% url 'show_profile' object.pk %}" class="back-to-all-profiles">Back to Profile</a>
+<a href="{% url 'show_profile' pk=user_profile_pk %}" class="back-to-all-profiles">Back to Profile</a>
 {% endblock %}
 
