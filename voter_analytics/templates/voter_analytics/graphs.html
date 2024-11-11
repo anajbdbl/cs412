@@ -1,0 +1,53 @@
+{% extends 'voter_analytics/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<h1>Voter Data Graphs</h1>
+
+<form method="get">
+    <label for="party_affiliation">Party Affiliation:</label>
+    {{ filter_form.party_affiliation }}
+
+    <label for="min_birth_year">Born After (Year):</label>
+    {{ filter_form.min_birth_year }}
+
+    <label for="max_birth_year">Born Before (Year):</label>
+    {{ filter_form.max_birth_year }}
+
+    <label for="voter_score">Voter Score:</label>
+    {{ filter_form.voter_score }}
+
+    <label for="v20state">Voted in 2020 State:</label>
+    {{ filter_form.v20state }}
+
+    <label for="v21town">Voted in 2021 Town:</label>
+    {{ filter_form.v21town }}
+
+    <label for="v21primary">Voted in 2021 Primary:</label>
+    {{ filter_form.v21primary }}
+
+    <label for="v22general">Voted in 2022 General:</label>
+    {{ filter_form.v22general }}
+
+    <label for="v23town">Voted in 2023 Town:</label>
+    {{ filter_form.v23town }}
+
+    <button type="submit">Filter</button>
+</form>
+
+<div class="graph">
+    <h2>Voter Birth Year Distribution</h2>
+    {{ birth_year_fig|safe }}
+</div>
+
+<div class="graph">
+    <h2>Party Affiliation Distribution</h2>
+    {{ party_fig|safe }}
+</div>
+
+<div class="graph">
+    <h2>Participation in Recent Elections</h2>
+    {{ election_fig|safe }}
+</div>
+{% endblock %}

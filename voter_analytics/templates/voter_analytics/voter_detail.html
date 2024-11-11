@@ -1,0 +1,25 @@
+{% extends 'voter_analytics/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<h1>Voter Details</h1>
+<p><strong>Name:</strong> {{ object.first_name }} {{ object.last_name }}</p>
+<p><strong>Address:</strong> {{ object.street_number }} {{ object.street_name }}</p>
+<p><strong>Apartment Number:</strong> {{ object.apartment_number }}</p>
+<p><strong>Zip Code:</strong> {{ object.zip_code }}</p>
+<p><strong>Date of Birth:</strong> {{ object.date_of_birth }}</p>
+<p><strong>Party Affiliation:</strong> {{ object.party_affiliation }}</p>
+<p><strong>Voter Score:</strong> {{ object.voter_score }}</p>
+<p><strong>Participation in Elections:</strong></p>
+<ul>
+    <li>2020 State: {{ object.v20state }}</li>
+    <li>2021 Town: {{ object.v21town }}</li>
+    <li>2021 Primary: {{ object.v21primary }}</li>
+    <li>2022 General: {{ object.v22general }}</li>
+    <li>2023 Town: {{ object.v23town }}</li>
+</ul>
+
+<a href="https://www.google.com/maps/search/?api=1&query={{ object.street_number }}+{{ object.street_name }}+{{ object.zip_code }}" target="_blank" class="button">View on Google Maps</a>
+
+{% endblock %}

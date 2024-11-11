@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     "formdata", # assignment 4 demo
     "restaurant", # assignment 4
     "blog", # assignment 5 demo
-    "mini_fb", # assignment 5, 6, 7, 8
+    "mini_fb", # assignment 5, 6, 7, 8, 9
+    "marathon_analytics", # assignment 10 demo
+    "voter_analytics", # assignment 10 
 ]
 
 MIDDLEWARE = [
