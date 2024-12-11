@@ -159,6 +159,12 @@ class PostReviewView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            try:
+                user_profile = UserProfile.objects.get(user=self.request.user)
+                context['user_profile_pk'] = user_profile.pk
+            except UserProfile.DoesNotExist:
+                context['user_profile_pk'] = None
         # Add list of movies to the context to allow review selection
         context['movies'] = Movie.objects.all()
         return context
@@ -202,6 +208,12 @@ class ShowFriendSuggestionsView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            try:
+                user_profile = UserProfile.objects.get(user=self.request.user)
+                context['user_profile_pk'] = user_profile.pk
+            except UserProfile.DoesNotExist:
+                context['user_profile_pk'] = None
         # Get a list of friend suggestions based on user profile
         context['friend_suggestions'] = self.object.get_friend_suggestions()
         return context
@@ -245,6 +257,12 @@ class WatchlistView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            try:
+                user_profile = UserProfile.objects.get(user=self.request.user)
+                context['user_profile_pk'] = user_profile.pk
+            except UserProfile.DoesNotExist:
+                context['user_profile_pk'] = None
         # Build a list of movie details for the template
         watchlist_items = self.get_queryset()
         context['movies'] = [
