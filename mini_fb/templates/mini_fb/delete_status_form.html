@@ -9,5 +9,5 @@
     {% csrf_token %}
     <button type="submit">Yes, Delete</button>
 </form>
-<a href="{% url 'show_profile' object.profile.pk %}">Cancel</a>
+<a href="{% url 'show_profile' object.userProfile.pk %}">Cancel</a>
 {% endblock %}

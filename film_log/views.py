@@ -11,39 +11,46 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.db.models import Avg
+from django.contrib import messages
+from django.http import Http404
 
 # Create your views here.
+# Show all user profiles
 class ShowAllView(ListView):
-    model = UserProfile
-    template_name = 'film_log/show_all.html'
-    context_object_name = 'profiles'
-    
+    model = UserProfile  # The model to query
+    template_name = 'film_log/show_all.html'  # Template to render
+    context_object_name = 'profiles'  # Name of the context variable
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # Check if the user is authenticated and try to get their profile
         if self.request.user.is_authenticated:
             try:
                 user_profile = UserProfile.objects.get(user=self.request.user)
-                context['user_profile_pk'] = user_profile.pk
+                context['user_profile_pk'] = user_profile.pk  # Add user profile ID to context
             except UserProfile.DoesNotExist:
-                context['user_profile_pk'] = None
+                context['user_profile_pk'] = None  # In case the user doesn't have a profile
         return context
-    
+
+
+# View for displaying a specific user profile
 class ProfileView(DetailView):
-    model = UserProfile
-    template_name = 'film_log/profile.html'
-    context_object_name = 'profile'
+    model = UserProfile  # The model to query
+    template_name = 'film_log/profile.html'  # Template to render
+    context_object_name = 'profile'  # Name of the context variable for the profile
 
     def get_object(self, queryset=None):
+        # Get the profile based on pk in URL or fallback to logged-in user's profile
         profile_pk = self.kwargs.get("pk")
         if not profile_pk:
-            # Fallback to the logged-in user's profile if no pk is provided
             return get_object_or_404(UserProfile, user=self.request.user)
         return get_object_or_404(UserProfile, pk=profile_pk)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         profile = self.get_object()
-
+        
+        # Same logic to get and add the logged-in user's profile
         if self.request.user.is_authenticated:
             try:
                 user_profile = UserProfile.objects.get(user=self.request.user)
@@ -51,28 +58,33 @@ class ProfileView(DetailView):
             except UserProfile.DoesNotExist:
                 context['user_profile_pk'] = None
 
-        # Query reviews for the profile using 'userProfile'
+        # Get reviews and watchlist for the profile
         context['reviews'] = Review.objects.filter(userProfile=profile).order_by('-date_posted')
         context['watchlist'] = profile.watchlist.all()
         return context
 
+
+# View for listing movies with optional search functionality
 class MovieListView(ListView):
-    model = Movie
-    template_name = 'film_log/all_movies.html'
-    context_object_name = 'movies'
+    model = Movie  # The model to query
+    template_name = 'film_log/all_movies.html'  # Template to render
+    context_object_name = 'movies'  # Name of the context variable for movies
 
     def get_queryset(self):
-        query = self.request.GET.get('q', '')  # Get the search term from the request
+        # Get the search term from the request query
+        query = self.request.GET.get('q', '')
         if query:
-            return Movie.objects.filter(title__icontains=query)  # Filter movies by title
-        return Movie.objects.all()  # Show all movies if no search term
+            # Filter movies by title if a search term is provided
+            return Movie.objects.filter(title__icontains=query)
+        return Movie.objects.all()  # Return all movies if no search term is provided
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
+        # Add the query string to context to show on the template
         query = self.request.GET.get('q', '')
         context['query'] = query
 
+        # Same logic to add the logged-in user's profile if authenticated
         if self.request.user.is_authenticated:
             try:
                 user_profile = UserProfile.objects.get(user=self.request.user)
@@ -81,12 +93,15 @@ class MovieListView(ListView):
                 context['user_profile_pk'] = None
         return context
 
+
+# View for creating a new user profile
 class CreateProfileView(CreateView):
-    form_class = CreateProfileForm
-    template_name = 'film_log/create_profile.html'
+    form_class = CreateProfileForm  # The form to create a profile
+    template_name = 'film_log/create_profile.html'  # Template to render
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # Add a user creation form to the context
         context['user_form'] = UserCreationForm()
         if self.request.user.is_authenticated:
             try:
@@ -97,56 +112,64 @@ class CreateProfileView(CreateView):
         return context
 
     def form_valid(self, form):
+        # Handle form validation and user profile creation
         user_form = UserCreationForm(self.request.POST)
-
         if user_form.is_valid():
-            user = user_form.save()
-            login(self.request, user)
-
+            user = user_form.save()  # Create the user
+            login(self.request, user)  # Log the user in
             profile = form.save(commit=False)
-            profile.user = user
+            profile.user = user  # Associate the profile with the user
             profile.save()
-
             self.object = profile
-
-            return redirect(self.get_success_url())
+            return redirect(self.get_success_url())  # Redirect to the new profile page
         else:
             return self.render_to_response(self.get_context_data(form=form, user_form=user_form))
-    
+
     def get_success_url(self):
+        # Success URL after profile creation
         return reverse('profile', kwargs={'pk': self.object.pk})
 
+
+# View for posting a review
 class PostReviewView(LoginRequiredMixin, CreateView):
-    model = Review
-    form_class = CreateReviewForm
-    template_name = 'film_log/post_review.html'
+    model = Review  # The model to query
+    form_class = CreateReviewForm  # The form to create a review
+    template_name = 'film_log/post_review.html'  # Template to render
 
     def form_valid(self, form):
-        # Get the user's profile
-        user_profile = self.request.user.profile  # Access via related_name in UserProfile
+        user_profile = self.request.user.profile  # Access the user's profile
+        movie = form.cleaned_data.get('movie')  # Get the movie for the review
 
-        # Check if the movie exists, create one if it doesn't
-        movie = form.cleaned_data.get('movie')
         if not movie:
+            # If no movie is provided, create a new movie entry
             movie_title = form.cleaned_data['movie']
             movie_description = "No description provided."
             movie_release_date = timezone.now()
-            movie_director = "Unknown"
-            movie_genre = "Unknown"
             movie = Movie.objects.create(
                 title=movie_title, 
                 description=movie_description,
-                release_date=movie_release_date, 
-                director=movie_director,
-                genre=movie_genre
+                release_date=movie_release_date,
             )
 
         # Save the review and link it to the user's profile
         review = form.save(commit=False)
-        review.userProfile = user_profile  # Associate with UserProfile, not User
+        review.userProfile = user_profile
         review.save()
+        return redirect('show_movie', pk=movie.pk)  # Redirect to the movie detail page
 
-        return redirect('show_movie', pk=movie.pk)  # Adjust redirect to use `pk`
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Add list of movies to the context to allow review selection
+        context['movies'] = Movie.objects.all()
+        return context
+
+class DeleteReviewView(LoginRequiredMixin, DeleteView):
+    model = Review
+    template_name = 'film_log/delete_review.html'  # This is the template for confirming the deletion
+
+    def get_success_url(self):
+        # Redirect to the user's profile after successful deletion of the review
+        return reverse('profile', kwargs={'pk': self.object.userProfile.pk})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -156,39 +179,35 @@ class PostReviewView(LoginRequiredMixin, CreateView):
                 context['user_profile_pk'] = user_profile.pk
             except UserProfile.DoesNotExist:
                 context['user_profile_pk'] = None
-
-        # Provide list of movies to search for
-        context['movies'] = Movie.objects.all()
         return context
 
-    
+# View for creating a friend relationship between users
 class CreateFriendView(LoginRequiredMixin, View):
     def dispatch(self, request, *args, **kwargs):
-        # Get the current user's profile
-        profile = get_object_or_404(UserProfile, user=self.request.user)
-        
-        # Get the other profile that the user wants to add as a friend
-        other = get_object_or_404(UserProfile, pk=kwargs['other_pk'])
-        
-        # Add the other profile as a friend
-        profile.add_friend(other)
-        
-        # Redirect back to the user's profile
-        return redirect('profile', pk=profile.pk)
-    
+        profile = get_object_or_404(UserProfile, user=self.request.user)  # Get the logged-in user's profile
+        other = get_object_or_404(UserProfile, pk=kwargs['other_pk'])  # Get the other user's profile
+        profile.add_friend(other)  # Add the other profile as a friend
+        return redirect('profile', pk=profile.pk)  # Redirect to the user's profile page
+
+
+# View for suggesting friends to the user based on common interests
 class ShowFriendSuggestionsView(LoginRequiredMixin, DetailView):
     model = UserProfile
     template_name = 'film_log/friend_suggestions.html'
     context_object_name = 'profile'
 
     def get_object(self, queryset=None):
+        # Get the profile of the logged-in user
         return get_object_or_404(UserProfile, user=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # Get a list of friend suggestions based on user profile
         context['friend_suggestions'] = self.object.get_friend_suggestions()
         return context
 
+
+# View for showing details of a movie, including reviews and average rating
 class MovieDetailView(DetailView):
     model = Movie
     template_name = 'film_log/movie_detail.html'
@@ -202,15 +221,18 @@ class MovieDetailView(DetailView):
                 context['user_profile_pk'] = user_profile.pk
             except UserProfile.DoesNotExist:
                 context['user_profile_pk'] = None
+
         movie = self.get_object()
         reviews = Review.objects.filter(movie=movie)
         average_rating = reviews.aggregate(Avg('rating'))['rating__avg'] or 0
         context.update({
-            'reviews': reviews,
-            'average_rating': average_rating,
+            'reviews': reviews,  # Reviews for the movie
+            'average_rating': average_rating,  # Average rating of the movie
         })
         return context
 
+
+# View for listing the movies in the user's watchlist
 class WatchlistView(LoginRequiredMixin, ListView):
     model = Watchlist
     template_name = 'film_log/watchlist.html'
@@ -221,19 +243,10 @@ class WatchlistView(LoginRequiredMixin, ListView):
         profile = get_object_or_404(UserProfile, user=self.request.user)
         return Watchlist.objects.filter(userProfile=profile).select_related('movie')
 
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        watchlist_items = self.get_queryset()
-
-        if self.request.user.is_authenticated:
-            try:
-                user_profile = UserProfile.objects.get(user=self.request.user)
-                context['user_profile_pk'] = user_profile.pk
-            except UserProfile.DoesNotExist:
-                context['user_profile_pk'] = None
-
         # Build a list of movie details for the template
+        watchlist_items = self.get_queryset()
         context['movies'] = [
             {
                 "id": item.movie.id,
@@ -249,21 +262,28 @@ class WatchlistView(LoginRequiredMixin, ListView):
         return context
 
 
+# View for adding a movie to the user's watchlist
 class AddToWatchlistView(LoginRequiredMixin, View):
-    def dispatch(self, request, *args, **kwargs):
-        profile = get_object_or_404(UserProfile, user=self.request.user)
-        movie = get_object_or_404(Movie, pk=kwargs['movie_id'])
-
-        # Add movie to the watchlist
-        Watchlist.objects.get_or_create(profile=profile, movie=movie)
-
+    def post(self, request, pk):
+        # Get the logged-in user's profile
+        user_profile = get_object_or_404(UserProfile, user=request.user)
+        
+        # Get the specific movie
+        movie = get_object_or_404(Movie, pk=pk)
+        
+        # Check if the movie is already in the user's watchlist
+        if Watchlist.objects.filter(userProfile=user_profile, movie=movie).exists():
+            messages.warning(request, f"{movie.title} is already in your watchlist.")
+        else:
+            # Create a new watchlist entry
+            Watchlist.objects.create(userProfile=user_profile, movie=movie)
+            messages.success(request, f"{movie.title} has been added to your watchlist.")
+        
+        # Redirect back to the movie list or another page
         return redirect('watchlist')
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['profile'] = get_object_or_404(UserProfile, user=self.request.user)
-        return context
 
+# View for removing a movie from the user's watchlist
 class RemoveFromWatchlistView(LoginRequiredMixin, View):
     def post(self, request, pk):
         # Get the logged-in user's profile
@@ -279,7 +299,7 @@ class RemoveFromWatchlistView(LoginRequiredMixin, View):
         # Redirect back to the watchlist
         return redirect('watchlist')
 
-
+# View for creating a new movie 
 class CreateMovieView(LoginRequiredMixin, CreateView):
     model = Movie
     form_class = CreateMovieForm
@@ -302,6 +322,7 @@ class CreateMovieView(LoginRequiredMixin, CreateView):
                 context['user_profile_pk'] = None
         return context
 
+# View for updating a users profile
 class UpdateProfileView(LoginRequiredMixin, UpdateView):
     model = UserProfile
     form_class = UpdateProfileForm
@@ -325,6 +346,7 @@ class UpdateProfileView(LoginRequiredMixin, UpdateView):
                 context['user_profile_pk'] = None
         return context
     
+# View for updating an existing review - only if you are the user that created it
 class UpdateReviewView(LoginRequiredMixin, UpdateView):
     model = Review
     form_class = UpdateReviewForm

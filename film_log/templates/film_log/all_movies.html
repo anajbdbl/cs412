@@ -28,6 +28,12 @@
                         <p><strong>Release Date:</strong> {{ movie.release_date }}</p>
                         <p>{{ movie.description|truncatewords:20 }}</p>
                         <a href="{% url 'show_movie' movie.id %}" class="details-link">View Details</a>
+                        {% if user.is_authenticated %}
+                            <form method="post" action="{% url 'add_to_watchlist' movie.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary">Add to Watchlist</button>
+                            </form>
+                        {% endif %}
                     </div>
                 </li>
             {% endfor %}

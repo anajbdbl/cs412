@@ -34,6 +34,7 @@
                         <p><strong>Posted on:</strong> {{ review.date_posted }}</p>
                         {% if user.is_authenticated and user == object.user %}
                             <a href="{% url 'update_review' review.pk %}" class="btn-post-status">Update Review</a>
+                            <a href="{% url 'delete_review' review.pk %}" class="btn-post-status">Delete Review</a>
                         {% endif %}
                         <br>
                     </li>

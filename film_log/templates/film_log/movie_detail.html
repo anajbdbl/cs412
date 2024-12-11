@@ -31,6 +31,11 @@
         <hr>
 
         {% if user.is_authenticated %}
+            <form method="post" action="{% url 'add_to_watchlist' movie.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">Add to Watchlist</button>
+            </form>
+
             <h3>Leave a Review:</h3>
             <form method="POST" action="{% url 'create_review' %}">
                 {% csrf_token %}
@@ -48,7 +53,7 @@
                 <button type="submit">Submit Review</button>
             </form>
         {% else %}
-            <p>You need to be logged in to leave a review.</p>
+            <p>You need to be logged in to leave a review and to add to watchlist.</p>
         {% endif %}
     </div>
 {% endblock %}
