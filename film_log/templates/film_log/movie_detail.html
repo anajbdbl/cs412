@@ -1,0 +1,54 @@
+<!-- film_log/templates/film_log/movie_detail.html -->
+
+{% extends 'film_log/base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <div class="movie-detail">
+        {% if movie.poster %}
+            <img src="{{ movie.poster.url }}" alt="Movie Poster" class="movie-poster">
+        {% else %}
+            <p>No poster available.</p>
+        {% endif %}
+        <h2>{{ movie.title }}</h2>
+        <p><strong>Release Date:</strong> {{ movie.release_date }}</p>
+        <p><strong>Rating:</strong> {{ average_rating }}</p>
+        <p><strong>Description:</strong> {{ movie.description }}</p>
+
+        <h3>Reviews:</h3>
+        <ul>
+            {% for review in reviews %}
+                <li>
+                    <p><strong>{{ review.userProfile.first_name }}:</strong> {{ review.review_text }}</p>
+                    <p><em>Rating: {{ review.rating }} - Posted on: {{ review.date_posted }}</em></p>
+                </li>
+            {% empty %}
+                <p>No reviews yet.</p>
+            {% endfor %}
+        </ul>
+
+        <hr>
+
+        {% if user.is_authenticated %}
+            <h3>Leave a Review:</h3>
+            <form method="POST" action="{% url 'create_review' %}">
+                {% csrf_token %}
+                <textarea name="review_text" rows="4" cols="50" required></textarea>
+                <br>
+                <label for="rating">Rating:</label>
+                <select name="rating" required>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+                <br>
+                <button type="submit">Submit Review</button>
+            </form>
+        {% else %}
+            <p>You need to be logged in to leave a review.</p>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -28,6 +28,7 @@ urlpatterns = [
     path("blog/", include("blog.urls")), ## new path for assignment 5 demo
     path('mini_fb/', include('mini_fb.urls')),  ## new path for assignment 5, 6, 7, 8, 9
     path('voter_analytics/', include('voter_analytics.urls')),  ## new path for assignment 10
+    path('film_log/', include('film_log.urls')),  ## new path for FINAL PROJECT
 ] 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

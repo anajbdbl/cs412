@@ -1,0 +1,43 @@
+<!-- film_log/templates/film_log/base.html -->
+
+{% load static %}
+
+<html>
+<head>
+    <title>Film Log</title>
+    <link rel="stylesheet" href="{% static 'film_log/styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Film Log</h1>
+    </header>
+    <nav> 
+        <a href="{% url 'all_movies' %}">Movies</a> 
+        <br><br>
+        <a href="{% url 'profiles' %}">All Profiles</a>
+        <br> <br>
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'profile'  pk=user_profile_pk %}">My Profile</a> <br>
+            <a href="{% url 'add_movie' %}">Add Movie</a> <br>
+            <a href="{% url 'create_review' %}">Post a Review</a> <br>
+            <a href="{% url 'watchlist' %}">View Watchlist</a> <br>
+            <a href="{% url 'logout' %}"> Logout </a> <br> <br>
+            <span>Logged in as: {{ user.username }}</span> 
+        {% else %}
+            <span> Not logged in </span> <br> <br>
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'create_profile' %}">Create Profile</a>
+        {% endif %}
+    </nav>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Film Log</p>
+    </footer>
+</body>
+</html>

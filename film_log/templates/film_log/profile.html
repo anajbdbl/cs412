@@ -1,0 +1,67 @@
+{% extends 'film_log/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<nav>
+    {% if user.is_authenticated and user == object.user %}
+        <a href="{% url 'update_profile' %}">Update Profile</a>
+    {% endif %}
+</nav>
+
+
+<div class="profile-detail-wrapper">
+    <div class="profile-detail-card">
+        <h1>{{ object.first_name }} {{ object.last_name }}</h1>
+        <img src="{{ object.profile_image_url }}" alt="Profile image" class="profile-detail-image">
+
+        <div class="profile-detail-info">
+            <p><strong>Birth Date:</strong> {{ object.birthdate }}</p>
+            <p><strong>Email:</strong> {{ object.email }}</p>
+        </div>
+
+        <h2>User Reviews</h2>
+            {% if user.is_authenticated and user == object.user %}
+                <a href="{% url 'create_review' %}" class="btn-post-status">Post a new review</a>
+            {% endif %}
+            
+            <ul class="user-reviews">
+                {% for review in object.reviews.all %}
+                    <li>
+                        <p><strong>Movie:</strong> {{ review.movie.title }}</p>
+                        <p><strong>Rating:</strong> {{ review.rating }} / 5</p>
+                        <p><strong>Review:</strong> {{ review.review_text }}</p>
+                        <p><strong>Posted on:</strong> {{ review.date_posted }}</p>
+                        {% if user.is_authenticated and user == object.user %}
+                            <a href="{% url 'update_review' review.pk %}" class="btn-post-status">Update Review</a>
+                        {% endif %}
+                        <br>
+                    </li>
+                {% empty %}
+                    <li>No reviews yet.</li>
+                {% endfor %}
+            </ul>
+
+        <h2>Friends</h2>
+            <ul class="friends-list">
+                {% for friend in object.get_friends %}
+                    <li class="profile-card">
+                        <img src="{{ friend.profile_image_url }}" alt="Profile Image">
+                        <div class="profile-info">
+                            <h2>
+                                <a href="{% url 'profile' pk=friend.pk %}">
+                                    {{ friend.first_name }} {{ friend.last_name }}
+                                </a>
+                            </h2>
+                        </div>
+                    </li>
+                {% empty %}
+                    <p>No friends yet.</p>
+                {% endfor %}
+            </ul> <br>
+        {% if user.is_authenticated and user == object.user %}
+            <a href="{% url 'friend_suggestions' %}" class="btn-post-status">Friend Suggestions</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

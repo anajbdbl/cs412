@@ -1,0 +1,82 @@
+{% extends 'film_log/base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h2 class="text-center mb-4">Post a Review</h2>
+
+        <form method="POST" enctype="multipart/form-data" class="card p-4 shadow-sm rounded">
+            {% csrf_token %}
+
+            <!-- Movie Search -->
+            <div class="form-group mb-3">
+                <label for="movie_search" class="form-label">Search for an Existing Movie:</label>
+                <input type="text" id="movie_search" name="movie_search" class="form-control" placeholder="Search by title" onkeyup="searchMovies()">
+                <ul id="movie_list" class="list-group mt-2">
+                    {% for movie in movies %}
+                        <li class="list-group-item movie-item" data-movie-id="{{ movie.id }}">{{ movie.title }}</li>
+                    {% empty %}
+                        <li class="list-group-item">No movies found.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Selected Movie -->
+            <div class="form-group mb-3">
+                <label for="movie" class="form-label">Selected Movie:</label>
+                <input type="hidden" id="movie" name="movie" value="{{ form.movie.value }}">
+                <p id="selected_movie_name" class="form-text">{{ form.movie.value|default:"None selected" }}</p>
+            </div>
+
+            <!-- Rating -->
+            <div class="form-group mb-3">
+                <label for="rating" class="form-label">Rating:</label>
+                {{ form.rating }}
+            </div>
+
+            <!-- Review Text -->
+            <div class="form-group mb-3">
+                <label for="review_text" class="form-label">Review:</label>
+                {{ form.review_text }}
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary w-100">Submit Review</button>
+        </form>
+
+        <div class="mt-4 text-center">
+            <h5>Can't find the movie you're looking for?</h5>
+            <a href="{% url 'add_movie' %}" class="btn btn-secondary mt-2">Add a New Movie</a>
+        </div>
+
+    <script>
+        // Search function for movie search
+        function searchMovies() {
+            let input = document.getElementById('movie_search');
+            let filter = input.value.toLowerCase();
+            let movieList = document.getElementById('movie_list');
+            let movies = movieList.getElementsByTagName('li');
+
+            for (let i = 0; i < movies.length; i++) {
+                let movieTitle = movies[i].textContent || movies[i].innerText;
+                if (movieTitle.toLowerCase().indexOf(filter) > -1) {
+                    movies[i].style.display = "";
+                } else {
+                    movies[i].style.display = "none";
+                }
+            }
+        }
+
+        // Handle movie selection
+        document.addEventListener('DOMContentLoaded', () => {
+            const movieItems = document.querySelectorAll('.movie-item');
+            movieItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    document.getElementById('movie').value = item.dataset.movieId;
+                    document.getElementById('selected_movie_name').textContent = item.textContent;
+                });
+            });
+        });
+    </script>
+{% endblock %}

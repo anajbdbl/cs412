@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "mini_fb", # assignment 5, 6, 7, 8, 9
     "marathon_analytics", # assignment 10 demo
     "voter_analytics", # assignment 10 
+    "film_log", # final project
 ]
 
 MIDDLEWARE = [

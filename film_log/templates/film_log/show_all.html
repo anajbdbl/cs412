@@ -1,0 +1,29 @@
+{% extends 'film_log/base.html' %}
+
+{% block content %}
+    <h2>All Profiles</h2>
+
+    {% if profiles %}
+        <div class="profile-list">
+            {% for profile in profiles %}
+                <div class="profile-item">
+                    <!-- Profile Image -->
+                    <img src="{{ profile.profile_image_url }}" alt="Profile Image" class="profile-image">
+                    
+                    <!-- Full Name -->
+                    <h3><a href="{% url 'profile' pk=profile.pk %}">{{ profile.first_name }} {{ profile.last_name }}</a></h3>
+                    
+                    <!-- Bio or any additional info -->
+                    <p>Birthdate: {{ profile.birthdate|date:"Y-m-d" }}</p>
+                    
+                    <!-- Add Friend Link (only if not the current user) -->
+                    {% if user.is_authenticated and user.pk != profile.user.pk %}
+                        <a href="{% url 'add_friend' other_pk=profile.pk %}">Add Friend</a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No profiles found.</p>
+    {% endif %}
+{% endblock %}

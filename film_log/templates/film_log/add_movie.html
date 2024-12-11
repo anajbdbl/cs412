@@ -1,0 +1,46 @@
+{% extends 'film_log/base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h2 class="text-center mb-4">Add a New Movie</h2>
+
+        <form method="POST" enctype="multipart/form-data" class="card p-4 shadow-sm rounded">
+            {% csrf_token %}
+            
+            <div class="form-group mb-3">
+                <label for="title" class="form-label">Movie Title:</label>
+                {{ form.title }}
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="description" class="form-label">Movie Description:</label>
+                {{ form.description }}
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="release_date" class="form-label">Release Date:</label>
+                {{ form.release_date }}
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="director" class="form-label">Director:</label>
+                {{ form.director }}
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="genre" class="form-label">Genre:</label>
+                {{ form.genre }}
+            </div>
+
+            <div class="form-group mb-3">
+                <label for="poster" class="form-label">Movie Poster:</label>
+                {{ form.poster }}
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Add Movie</button>
+        </form>
+    </div>
+{% endblock %}
+
