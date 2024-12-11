@@ -1,3 +1,7 @@
+## Ana Julia Bortolossi
+## anajbdbl@bu.edu
+## models for the application
+
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User

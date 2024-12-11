@@ -1,3 +1,8 @@
+## Ana Julia Bortolossi
+## anajbdbl@bu.edu
+## views for the application
+
+
 from datetime import timezone
 from django.shortcuts import render
 from django.urls import reverse, reverse_lazy

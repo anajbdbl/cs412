@@ -1,3 +1,7 @@
+## Ana Julia Bortolossi
+## anajbdbl@bu.edu
+## urls for the application
+
 from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views
